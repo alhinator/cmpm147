@@ -8,7 +8,7 @@ const fillers = {
   name: ["Wizard", "Witch", "Warlock", "Alchemist", "Gambler", "Sniler", "Executioner", "Gay Frog", "President", "Wes Mode", "Gamer"],
   tasteful: ["Tasteful", "Delicious", "Interesting", "Abhorrent", "Dégoûtant", 'Unusual', "Sinister", "Queer", "Addictive", "Righteous", "Frightening", "Perfected", "Ascendant", "Living", "Dreadful", "Non-alcoholic", "Rainbow", "Starry"],
   drinknoun: ["Potion", "Brew", "Concotion", "Sipping Drink", "Mixed Drink", "Creation", "Jus"],
-  base_amt: ["a pint", "one shot", "two shots", "eight ounces", "a large jug", "half a glass"],
+  base_amt: ["a pint", "one shot", "two shots", "eight ounces", "a large jug"],
   base: ["lemonade", "iced tea", "seltzer water", "ginger beer", "limeade", "naked juice", "apple juice", "orange juice", "cranberry juice", "grapefruit juice", "milk", "cola", "pilk", "sprite", "nyquil", "lean", "kombucha", "coffee", "chai", "matcha", "redbull", "sugar-free monster", "beef broth", "margarita mixer", "grenadine syrup", "g-fuel"],
   alc: ["vodka", "everclear", "moonshine", "white rum", "coconut rum", "fireball", "cheap whiskey", "expensive whiskey", "brandy", "ale", "mead", "tequila", "white wine", "red wine", "coor's banquet", "miller high life", "banana liqueur"],
   method_adverb:["Slowly", "Quickly", "Carefully", "Lovingly", "Violently"],
@@ -16,7 +16,7 @@ const fillers = {
   time:["ten seconds", "fifteen seconds", "thirty seconds", "one minute"],
   garnish: ["a sprig of mint", "salt", "cayenne powder", "tajin", "a dash of lime", "a dash of lemon", "a wedge of lime", "a wedge of orange", "a wedge of lemon", "a sprig of cilantro", "three drops of your own blood", "the tears of a maiden", "MDMA"],
   served: ["warm", "chilled", "frozen", "piping hot", "lukewarm", "on the rocks"],
-  container:["old fashioned glass", "shotglass", "tall shotglass", "potion bottle", "copper mug", "pint glass", "wooden pint", "coffee mug", "bong", "hydroflask", "dog bowl"]
+  container:["old fashioned glass", "shotglass", "tall shotglass", "potion bottle", "copper mug", "pint glass", "wooden tankard", "coffee mug", "bong", "hydroflask", "dog bowl"]
 };
 
 const template = `Recipe for "$name\'s $tasteful $drinknoun":

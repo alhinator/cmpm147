@@ -15,20 +15,20 @@ const DIAG_AX = 3;
 let sk1,sk2,mtn1,mtnH,mtnS,mtn2,mtn3;
 let ssx_mod, ssy_mod, ssl_mod, ss_yoff
 let s_rot;
-let nextStep = 3000
+let nextStep = 4000
 
 function resizeScreen() {
-  centerHorz = 320 / 2; // Adjusted for drawing logic
-  centerVert = 180 / 2; // Adjusted for drawing logic
+  centerHorz = canvasContainer.width() / 6; // Adjusted for drawing logic
+  centerVert = canvasContainer.height() / 4; // Adjusted for drawing logic
   console.log("Resizing...");
-  resizeCanvas(320, 180);
+  resizeCanvas(canvasContainer.width()/3, canvasContainer.height()/2);
   // redrawCanvas(); // Redraw everything based on new size
 }
 
 function setup() {
   // place our canvas, making it fit our container
   canvasContainer = $("#canvas-container");
-  let canvas = createCanvas(380, 270);
+  let canvas = createCanvas(canvasContainer.width()/3, canvasContainer.height()/2);
   canvas.parent("canvas-container");
   // resize canvas if the page is resized
 
@@ -37,8 +37,10 @@ function setup() {
   });
   resizeScreen();
 
+  frameRate(30)
   let refreshButton = createButton("Reimagine").mousePressed(() => {seed++; resetStar()});
   refreshButton.parent("canvas-container")
+  resetStar()
 
   sk1 = color(219,178,202);
   sk2 = color(29,89,141);
@@ -48,7 +50,6 @@ function setup() {
   mtn2 = color(42,68,91)
   mtn3 = color(38,66,88)
   
-  resetStar()
 }
 
 function draw() {
@@ -58,7 +59,7 @@ function draw() {
   
   background(0)
   // Sky
-  setGradient(0, 0, width, height*3/4, sk1, sk2, DIAG_AX);
+  setGradient(0, 0, width, height*3/4, sk1, sk2, X_AXIS);
   noStroke();
 
   //now do stars, going to make some that are randomly dist'ed.
@@ -82,14 +83,16 @@ function draw() {
   angleMode(RADIANS)
   
   rotate(s_rot)
-  let ss_x = random()*200-100 + cos(s_rot)**2 * ssx_mod
-  let ss_y = ss_yoff + sin(s_rot)**2 * ssy_mod
+  let ss_x = -10 + ssx_mod
+  let ss_y = ss_yoff + ssy_mod
   ellipse(ss_x,ss_y, random()*50+20+ssl_mod, 1);
   rotate(-s_rot)
   
-  ssx_mod += random()*60+30
-  ssy_mod += random()*30+30
-  ssl_mod += 2
+  ssx_mod += 60*Math.sqrt(cos(s_rot)**2)
+  ssy_mod += 60*Math.sqrt(sin(s_rot)**2)
+  console.log( Math.sqrt(cos(s_rot)**2))
+  console.log(Math.sqrt(sin(s_rot)**2))
+  ssl_mod ++
   if(millis() > nextStep){ resetStar()} 
   else { random()*random()*random() }//faux random so the seed stays constant
   
@@ -242,7 +245,7 @@ function makeStarGroup(x,y,w,h,n,nb){
     stroke(255)
     //choose between circle & point
     if (random()*10 > 5){
-      circle(s_x,s_y,((millis()%10)/30 + 0.3 + noise(millis()*s_x)/10))
+      circle(s_x,s_y,(noise((millis()*s_x))/2 + 0.5 + noise(millis()*s_x)))
     } else {
       point(s_x,s_y)
     }
@@ -250,10 +253,10 @@ function makeStarGroup(x,y,w,h,n,nb){
 }
 
 function resetStar(){
-  ssx_mod = 50
-  ssy_mod = 50
-  ss_yoff = abs(random()*(nextStep-millis()))%80-30
+  ssx_mod = 0
+  ssy_mod = 0
+  ss_yoff = abs(random()*(nextStep-millis()))%200-20
   ssl_mod = 0
-  s_rot = (abs(random()*(nextStep-millis()))%30+10 ) * 3.14/180
-  nextStep = millis() + random()*3000+2000
+  s_rot = (abs(random()*(nextStep-millis()))%10+5 ) * 3.14/180
+  nextStep = millis() + random()*4000+1000
 }

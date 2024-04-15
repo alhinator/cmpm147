@@ -2,7 +2,7 @@
 <html>
 <head>
 	<!-- This title is used for tabs and bookmarks -->
-	<title>Experiment X - Subject/Topic</title>
+	<title>Experiment 2 - Living Impression</title>
 
 	<!-- Use UTF character set, a good idea with any webpage -->
 	<meta charset="UTF-8" />
@@ -22,8 +22,6 @@
 
 	<!-- Link to javascript files - DEFER waits until all elements are rendered -->
     <script type="text/javascript" src="../js/site.js" DEFER></script>
-	<!-- Use me for a JavaScript OOP Project -->
-	<script type="text/javascript" src="./js/project.js" DEFER></script>
 	<!-- Use me for a p5.js project -->
 	<script type="text/javascript" src="./js/sketch.js" DEFER></script>
 </head>
@@ -32,7 +30,7 @@
 	<main id="content">
 		<section>
 
-			<h1>Experiment X - Subject/Topic</h1>
+			<h1>Experiment 2 - Living Impression</h1>
 
 			<div class="minor-section">
 				<div id="canvas-container">
@@ -45,17 +43,28 @@
 
 			<div class="minor-section">
 				<h2>Description</h2>
-				<p>What are you trying to acomplish with this experiment?</p>
+				<p>The goal of this experiment was to create a generated "living" landscape based on a photo. My reference image was one that I've had laying around on my pc for years; I used it as a desktop background for quite a while, and I love the mountain aesthetics with the exaggerated sky.
+					I focused heavily on creating a nice sky gradient and star groupings that "twinkled", as well as mountains that were shaped like the ones from the image. Lastly, I wanted a looping "shooting star" that moved across the screen at different positions and angles every few seconds.
+				</p>
 			</div>
 
 			<div class="minor-section">
 				<h2>Technical</h2>
-				<p>Describe in detail what you did technically and how it works?</p>
+				<p>Starting with the background gradient, I began with a p5js example for how to create a graduated rectangle - it maps the X or Y position of a vertical or horizontal line to lerp between two colors, creating either a vertical or horizontal gradient. However, I wanted my gradient to be diagonal, so I modified the code to manually "dot" each pixel of the background in order to create a controlled diagonal gradient. Unfortunately, this heavily limited the resolution of my final image due to p5.js's slow processing of placing that many points.
+				Secondly, I used sine and cosine-based functions mixed with noise to create the mountainous shapes I was looking for, modulating both the height, width, and number of mountains onscreen, by changing the modulation of the function between each wave. On the rear mountain, there are lines descending from the peaks of the mountain that shade lighter or darker based on if the point is higher or lower than the point directly to the left of it.
+				For the stars, I created them in two groups: The first was created with simple random distributions across the entire visible background. Second, I created "nebulas", which were just clusters of stars, by randomly determining a centerpoint, width, height, and distributing stars around that point with double-random functions, as well as applying a negative x-offset so they appeared to "slant" towards the right.
+				Lastly, about half of the stars are drawn as circles instead of points; they "flicker" using noise functions that modulate their radius based on time and x-position.
+				The shooting star is a simple ellipse that resets to a random y-position at timed intervals, along with a new angle. The direction of the shooting star's movement is calculated from the unit vector of the ellipse's rotation, which looks good enough for this purpose. It also gains length as it travels, and resets when the star resets.
+				</p>
 			</div>
 
 			<div class="minor-section">
 				<h2>Reflection</h2>
-				<p>Each person that worked on the code should reflect on the process, the difficulties, and the successes of the experiment.</p>
+				<p>At the start, it was really difficult to get the mountains to generate how I wanted them to, but after I began combining multple noise, random, and cosine functions, I was able to get the shapes I wanted. I also had to "accentuate" the peaks of the mountains, and I was having a lot of trouble with that before I realized I had to accentuate them *before* giving them noisy texture.
+					The gradient rectangle was simple to code, but my issue is with performance. I definitely could have loaded a simple png as the background to reduce computation & increase framerate, but it seemed like it went against the idea of the project.
+					There likely would be a more cost-efficient way to do it if I looked under the hood of p5js, but I don't have the time or energy to do so, so I'll have to live with 3-5fps.
+					Other than that, it was nice to learn how to make terrain based off of a sin/cos function, and how to turn it into something that actually looks like terrain, and not just a wavy line.
+				</p>
 			</div>
 
 		</section>

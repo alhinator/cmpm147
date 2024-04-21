@@ -41,6 +41,7 @@ const w1 = (sketch) => {
   }
 
   sketch.reseed = () => {
+    console.log(sketch.seed)
     sketch.seed = (sketch.seed | 0) + 420;
     sketch.randomSeed(sketch.seed);
     sketch.noiseSeed(sketch.seed);
@@ -308,9 +309,10 @@ const w2 = (sketch) => {
   }
 
   sketch.reseed = () => {
+    console.log(sketch.seed)
     sketch.seed = (sketch.seed | 0) + 420;
     sketch.randomSeed(sketch.seed);
-    sketch.noiseSeed(sketch.seed);
+    //sketch.noiseSeed(sketch.seed);
     sketch.select("#seedReportOverworld").html("seed " + sketch.seed);
     sketch.regenerateGrid();
   }

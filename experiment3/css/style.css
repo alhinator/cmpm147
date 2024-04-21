@@ -15,5 +15,9 @@ body {
 
 #canvas-container {
     width: 100%;
-    height: 600px;
+    height: 400px;
+}
+#canvas-container-2 {
+    width: 100%;
+    height: 400px;
 }

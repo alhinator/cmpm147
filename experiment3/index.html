@@ -144,8 +144,9 @@
 						of clouds changes based on the random seed.</li>
 				</ol>
 				<p></p>
-				<p>In the Dungeon, the generation and rendering is simpler, only taking place in 4 steps. My focus for
-					this world was on the interactivity through mouse clicks.</p>
+				<p>In the Dungeon, the generation and rendering is simpler, only taking place in 3 steps. My focus for
+					this world was on interactivity through mouse clicks.
+				</p>
 				<ol>
 					<li>First, the map is filled with red "wall" tiles, which are given variation based on a function of
 						noise and position.</li>
@@ -157,10 +158,12 @@
 							of the map, regardless of the original border edge.</dd>
 						<dd>- Repeat this process between 3 and 12 times, based on the seed.</dd>
 					</li>
-					<li>Every frame, the "open" tiles are decorated with variating sprites based on simple randomness -
-						they change whenever the room is altered, but not every frame.</li>
-					<li>Additionally, open tiles that border one or more wall tiles are decorated with walls using the
-						same style of bitmasking as the overworld's cliffs and trees.</li>
+					<li> Every frame, the "open" tiles are decorated with varying sprites based on simple randomness -
+						they change whenever the room is altered, but not every frame. Open tiles that border one or
+						more wall tiles are decorated with walls using the same style of bit masking as the overworld's
+						cliffs and trees. Lastly, “wall” tiles are given variation based on a function of noise and
+						position.
+					</li>
 					<p></p>
 				</ol>
 				<p>In the Dungeon, the user may click on any tile to swap it between a "wall" tile and an "open"

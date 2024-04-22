@@ -397,7 +397,6 @@ const w2 = (sketch) => {
     let dir
     while (yOff < numRows) {
       if (yOff < vertLen && xOff >= 0 && xOff < numRows) { //haven't reached l/r adjust yet && good positioning.
-        //console.log("in I place")
         grid[yOff][xOff] = ","
       }
       if (yOff >= vertLen) { //have reached adjust

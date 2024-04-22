@@ -36,7 +36,7 @@ const w1 = (sketch) => {
 
   sketch.preload = () => {
     sketch.tilesetImage = sketch.loadImage(
-      "/img/tilesetP8.png"
+      "https://cdn.glitch.com/25101045-29e2-407a-894c-e0243cd8c7c6%2FtilesetP8.png?v=1611654020438"
     );
   }
 

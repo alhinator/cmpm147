@@ -295,8 +295,6 @@ let world1 = new p5(w1)
 
 
 const w2 = (sketch) => {
-
-
   sketch.seed = 0;
   sketch.tilesetImage;
   sketch.currentGrid = [];
@@ -312,7 +310,7 @@ const w2 = (sketch) => {
     console.log(sketch.seed)
     sketch.seed = (sketch.seed | 0) + 420;
     sketch.randomSeed(sketch.seed);
-    //sketch.noiseSeed(sketch.seed);
+    sketch.noiseSeed(sketch.seed);
     sketch.select("#seedReportOverworld").html("seed " + sketch.seed);
     sketch.regenerateGrid();
   }

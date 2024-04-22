@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<!-- This title is used for tabs and bookmarks -->
 	<title>Experiment 3 - Alternate Worlds</title>
@@ -15,14 +16,14 @@
 
 	<!-- Load jQuery library -->
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-        crossorigin="anonymous"></script>
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<!-- Load p5.js library -->
 	<script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"></script>
 	<!-- Use me for a p5.js project -->
 	<script type="text/javascript" src="./js/sketch.js" DEFER></script>
 	<!--<script type="text/javascript" src="./js/sketch2.js" DEFER></script>-->
 </head>
+
 <body>
 	<!-- Style this page by changing the CSS in ../css/site.css or css/experiment.css -->
 	<main id="content">
@@ -35,52 +36,162 @@
 					<!-- canvas will be added here -->
 					<button id="reseedButtonOverworld">
 						reseed
-					  </button>
-					  <span id="seedReportOverworld"></span>
-					  <hr />
-					  <span id="canvasContainerOverworld" style="margin: 10px;"></span>
-					  <textarea cols="20" rows="20" id="asciiBoxOverworld" style="opacity: 0.5; letter-spacing: 1ex; width: 320px; margin: 10px; font-family: monospace;"></textarea>
-					  
+					</button>
+					<span id="seedReportOverworld"></span>
+					<hr />
+					<span id="canvasContainerOverworld" style="margin: 10px;"></span>
+					<textarea cols="20" rows="20" id="asciiBoxOverworld"
+						style="opacity: 0.5; letter-spacing: 1ex; width: 320px; margin: 10px; font-family: monospace;"></textarea>
+
 				</div>
-                
+
 			</div>
 			<div class="minor-section">
 				<div id="canvas-container-2">
 					<!-- canvas 2 will be added here -->
 					<button id="reseedButtonDungeon">
 						reseed
-					  </button>
-					  <span id="seedReportDungeon"></span>
-					  <hr />
-					  <span id="canvasContainer-2" style="margin: 10px;"></span>
-					  <textarea cols="20" rows="20" id="asciiBoxDungeon" style="opacity: 0.5; letter-spacing: 1ex; width: 320px; margin: 10px; font-family: monospace;"></textarea>
-					  
+					</button>
+					<span id="seedReportDungeon"></span>
+					<hr />
+					<span id="canvasContainer-2" style="margin: 10px;"></span>
+					<textarea cols="20" rows="20" id="asciiBoxDungeon"
+						style="opacity: 0.5; letter-spacing: 1ex; width: 320px; margin: 10px; font-family: monospace;"></textarea>
+
 				</div>
-                
+
 			</div>
 
 			<div class="minor-section">
 				<h2>Description</h2>
-				<p>What are you trying to acomplish with this experiment?</p>
+				<p>This experiment consists of two separate "worlds" - one Overworld and one Dungeon. Each is generated
+					with different rules, and have different features.
+					(Both worlds use tiles from <a
+						href="https://thkaspar.itch.io/micro-tileset-overworld-dungeon">[Micro Tileset - Overworld &
+						Dungeon]</a> by
+					<a href="https://thkaspar.itch.io/">[thkaspar]</a>)
+				</p>
+				<p>The first world is a snowy forest scene. It contains a hill that begins on the left side of the
+					canvas and works its way down, stepping left or right after short intervals. The grass on the hill
+					is lighter and it is surrounded by cliffs. After the hill is generated, clumps of forests are
+					created based on noise(), and given shading based on whether they are 'raised' on the hill, or
+					lowered on the rest of the valley. Houses are placed on open "lowered" tiles with simple randomness.
+					Both light and dark grass (and their snowy variants) contain variation as simple randomness.
+				</p>
+				<p>The overworld text-codes are:
+				<ul>
+					<li>"." = Lowered Grass/Snow</li>
+					<li>"T" = Lowered Tree</li>
+					<p></p>
+					<li>"," = Raised Grass/Snow</li>
+					<li>"W" = Raised Tree</li>
+				</ul>
+				</p>
+
+				<p>The "signs of life" in the overworld are tiles drawn with or without snow based on noise as a
+					function
+					of time. Additionally, the shadows of clouds loop across the screen, resetting & changing
+					position/size
+					when they leave the edge of the canvas.</p>
+
+
+				<p>My second world creates a single dungeon room by combining adjacent rectangles. Chests have a rare
+					chance to generate on open tiles - and a rarer chance to be a golden chest. Variation in the "Wall"
+					tiles is a function of noise() and position, and variation in the floor tiles is simple random,
+					which is affected by the shape and number of open tiles in the room. This way, it feels more like
+					the user is "carving" a dungeon room out of the static, surrounding stone, while the interior of the
+					room is more active.</p>
+
+				<p>The dungeon text-codes are:
+				<ul>
+					<li>"."= Wall</li>
+					<li>"," = Open Area</li>
+				</ul>
+				</p>
+				In addition to editing the text-box to the right of the "world", the user can click on tiles in the
+				Dungeon to swap them between "wall" and "open", indicated by the selected tile
+				highlighted in a certain color.
+				</p>
+				<p>Both worlds use four-directional bitmasking to determine which tilemap sprite should be used; in the
+					Overworld, it decorates the edges of cliffs and treelines, and in the Dungeon, it surrounds the open
+					areas with walls.</p>
 			</div>
 
 			<div class="minor-section">
 				<h2>Technical</h2>
-				<p>Describe in detail what you did technically and how it works?</p>
+				<p>In both worlds, the generation and rendering of each world are done separately. The "canvases" take
+					place in two different p5.js instances, however, p5.js source shares a single randomSeed and
+					noiseSeed, so re-seeding one world partially re-seeds the other - but only for the noise-based
+					rendering, not the seed-based generation.</p>
+				<p></p>
+				<p>In the Overworld, the map generation & rendering takes place in 3 steps for each phase.</p>
+				<ol>
+					<li>First, the map is filled with "lowered" grass as a starting point.</li>
+					<li>The hill on the left is drawn from the top down, filling any tiles to the left of it with
+						"raised" grass. As it travels down, it paints a certain amount of tiles, then moves left or
+						right randomly, then paints a random amount more tiles, and repeats until it has reached the
+						bottom of the grid.</li>
+					<li>Then, it uses noise to scatter trees across the map in clumps, designating them as "raised" or
+						"lowered" depending on what the grass was before the tree was placed.</li>
+					<p></p>
+					<li>After the map is done generating, the grass is drawn each frame. Bitmasking is used to determine
+						the tile's sprite when any lowered grass borders a raised grass, and to determine the shape of
+						trees. During this process, noise as a function of position and time is used to determine
+						whether or not the tile should be drawn as snowy.</li>
+					<li>Houses are then placed randomly; each tile is checked for the possibility of a house.</li>
+					<li>Lastly, the shadows of clouds are drawn over the map, traveling southeast as a function of time
+						and noise - they change size, shape, and reset position when leaving the canvas, and the number
+						of clouds changes based on the random seed.</li>
+				</ol>
+				<p></p>
+				<p>In the Dungeon, the generation and rendering is simpler, only taking place in 4 steps. My focus for
+					this world was on the interactivity through mouse clicks.</p>
+				<ol>
+					<li>First, the map is filled with red "wall" tiles, which are given variation based on a function of
+						noise and position.</li>
+					<li>Second, a series of bordering rectangles are placed onto the map, "carving" out a single,
+						contiguous room. <dl>→ The pseudocode for the room generation is as follows:</dl>
+						<dd>- Create a rectangle between 2 tiles and 1/4 the total tiles wide (and tall). It's placed at
+							least one tile away from the edge.</dd>
+						<dd>- Pick a border edge, and create a rectangle along that edge that extends towards the center
+							of the map, regardless of the original border edge.</dd>
+						<dd>- Repeat this process between 3 and 12 times, based on the seed.</dd>
+					</li>
+					<li>Every frame, the "open" tiles are decorated with variating sprites based on simple randomness -
+						they change whenever the room is altered, but not every frame.</li>
+					<li>Additionally, open tiles that border one or more wall tiles are decorated with walls using the
+						same style of bitmasking as the overworld's cliffs and trees.</li>
+					<p></p>
+				</ol>
+				<p>In the Dungeon, the user may click on any tile to swap it between a "wall" tile and an "open"
+					tile. This is done by taking the mouse's position as a percentage of the canvas width/height, and
+					converting that to a tile position. Then, a simple listener edits the map & text-box codes on click.
+					A selection rectangle is drawn using the same position-to-tile conversion with a different color
+					based on the tile currently being hovered.
+				</p>
 			</div>
 
 			<div class="minor-section">
 				<h2>Reflection</h2>
-				<p>Each person that worked on the code should reflect on the process, the difficulties, and the successes of the experiment.</p>
+				<p>In the beginning of the coding process, I was very confused at how the bitmasking was supposed to
+					work. However, after trying to do it differently, it dawned on me how it actually worked, and I had
+					minimal issues with bitmasking via the intended style from there on out. The only other issue I had
+					was that after
+					finishing both worlds on Glitch, I needed to convert them to p5.js's "instanced mode" in order to
+					place
+					multiple canvases on one webpage. Luckily, this wasn't too difficult, and it mostly consisted of
+					copy
+					pasting member prefixes in front of all my variables and functions ad nauseum.</p>
 			</div>
 
 		</section>
 		<nav id="links" class="minor-section">
 			<!-- Put link back to homepage here. -->
-            <ul>
-                <li><a href="../index.html">Home</a></li>
-            </ul>
+			<ul>
+				<li><a href="../index.html">Home</a></li>
+			</ul>
 		</nav>
 	</main>
 </body>
+
 </html>

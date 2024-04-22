@@ -515,6 +515,7 @@ const w2 = (sketch) => {
     let gc = sketch.gridCode(grid, i, j, target)
     let [tiOffset, tjOffset] = lookup[gc];
     let rng = 0
+    
     if (tiOffset == 0 && tjOffset == 0) { rng = sketch.random(4) | 0 }
     //snow noise
 

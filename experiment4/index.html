@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<!-- This title is used for tabs and bookmarks -->
+	<title>Experiment 4 - Ininfite Worlds</title>
+
+	<!-- Use UTF character set, a good idea with any webpage -->
+	<meta charset="UTF-8" />
+	<!-- Set viewport so page remains consistently scaled w narrow devices -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+	<!-- Include CSS file, including a site-wide CSS and for this particular page -->
+	<link rel="stylesheet" type="text/css" href="../css/site.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+
+	<!-- Load jQuery library -->
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<!-- Load p5.js library -->
+	<script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"></script>
+	<!-- Use me for a p5.js project -->
+	<script type="text/javascript" src="./js/sketch.js" DEFER></script>
+	<script type="text/javascript" src="./js/xxhash.min.js" DEFER></script>
+</head>
+
+<body>
+	<!-- Style this page by changing the CSS in ../css/site.css or css/experiment.css -->
+	<main id="content">
+		<section>
+
+			<h1>Experiment 4 - Infinite Worlds</h1>
+			<div class="minor-section">
+				<p><a href="/experiment4/index2.html">World 2</a></p>
+				<p><a href="/experiment4/index3.html">World 3</a></p>
+			</div>
+
+			<div class="minor-section">
+				<div id="canvas-container">
+
+				</div>
+				<div id="splash-container"></div>
+
+			</div>
+
+			<div class="minor-section">
+				<p>
+				<p></p>
+				</p>
+
+				<h2>Description</h2>
+				<p>This experiment consists of three unique infinite worlds, inspired by different things. These are my
+					following inspiration images:
+				</p>
+				<p>World 1:</p>
+				<img src="https://files.utilitylog.com/img/Snake-game-on-Google.png" width="300">
+				<p>The first world is a spin on snake game, making it infinite while keeping the theme colors of the
+					Google rendition of the game.</p>
+				<p>World 2:</p>
+				<img src="https://thumbs.dreamstime.com/b/view-endless-city-landscape-drone-d-rendering-concept-285045203.jpg"
+					width="400">
+				<img src="https://cdn.akamai.steamstatic.com/steam/apps/1291340/ss_07f2bedd6f510cb08bf5a0708e3a2e8ed299fbbd.1920x1080.jpg?t=1709646098"
+					width="400">
+				<p>The world is inspired by the concept of an infinite city, but I wanted to also implement color
+					gradients similar to the game Townscaper.</p>
+				<p>World 3:</p>
+				<img src="https://www.dndbeyond.com/avatars/thumbnails/30763/227/1000/1000/638061153443493893.png"
+					width="400">
+				<p>The last world is an "airborne" spin on the infinite snake game I created for World 1. Inspired by a
+					friend, as well as the "Couatl" winged snake.</p>
+
+			</div>
+
+			<div class="minor-section">
+				<h2>Technical</h2>
+				Each world has different rules for its generation, but they are all built around the same framework
+				provided by {amsmith,ikarth}@ucsc.edu. World 1 uses simple odd/even tiling to create the green
+				checkerboard pattern seen in Google Snake, and then checks the noise value of each drawn tile to see if
+				a wall should be drawn, with a height based on the noise level. World 3 works in a similar way, but only
+				draws a single light blue square over
+				the background; the clouds are determined the same way and use a simple oscillator as a modulo of
+				millis().
+				<p></p>
+				World 2 uses a slightly more in-depth computation. To start, the world's seed determines a base RGB
+				color by hashing the seed into three numbers between 0 and 255. Next, it calculates a "road offset" for
+				the X and Y dimensions, detemining how far apart the roads will be.
+				<p></p>
+				It uses a green-tint of the base color to draw the "grass", affected slightly by the tile's position,
+				then draws roads on their x & y offset values, using a 4-way tile checker to autotile.
+				<p></p>
+				Lastly, it draws buildings if the noise of a tile is greater than a given value, giving the building
+				height based on that noise. The color of the building is determined by the base color offset by an
+				amount calculated by the tile's position.
+				<p></p>
+				A simple click checker cycles tiles not already specified as roads to be either grass, road, or
+				building.
+			</div>
+
+			<div class="minor-section">
+				<h2>Reflection</h2>
+				While I did enjoy this project, I feel I would have struggled less if my effort was put into polishing one world instead of building and iterating three different ones.
+			</div>
+
+		</section>
+		<nav id="links" class="minor-section">
+			<!-- Put link back to homepage here. -->
+			<ul>
+				<li><a href="../index.html">Home</a></li>
+			</ul>
+		</nav>
+	</main>
+</body>
+
+</html>

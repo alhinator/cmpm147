@@ -488,16 +488,14 @@ function p3_drawTile(i, j, w_i, w_j, [snake_head_posx, snake_head_posy], snake_b
   //truth table:
   //(!A&B) & C & !D
   let A = n > 0 //clicking only clears, it does not place back.
-  let B = m > 0.59 //noise is above half
+  let B = m > 0.59 //noise is above halfish
   let C = !(abs(i) < 3 && abs(j) < 3) //its not within the starting area.
-  let D = m > 0.8
+  let D = m > 0.8 //will a powerup be placed there
 
   if ((!A && B) && C && !D) {
     Math.floor(m)
     m *= 4
     m = m ** m
-
-
     fill(177 + m / 4, 112 + m / 4, 57 + m / 4);
     beginShape()
     vertex(-tw, -th - m);

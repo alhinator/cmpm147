@@ -51,7 +51,7 @@ function preload() {
       if (wh < 1 ) { wh = 1}
       allInspirations[3].whRatio = wh
       inspirationChanged(allInspirations[dropper.value]); 
-    }, ()=>{console.log("fucked up")})
+    }, ()=>{console.log("bad img url")})
   }
   
 
@@ -230,7 +230,7 @@ function initDesign(insp) {
     alphaSub: 70,
     numShapes: 2000,
   };
-  //will create a series of random shapes in accordance w/the image's defined shape function.
+  //create a series of random points and radiuseseses. these will be converted to shapes in the render func
   let _x, _y, _r, _rot, _alpha;
   for (let i = 0; i <= design.numShapes; i++) {
     _x = floor(random(insp.image.width));
@@ -307,14 +307,10 @@ function mut(num, min, max, rate) {
 }
 
 function getColorIndex(xpos, ypos, img) {
-  //console.log(img.pixels[2])
-  //console.log(img.width)
   let index = (ypos * img.width + xpos) * 4;
-  //console.log(img.pixels)
   let rval = [img.pixels[index], img.pixels[index + 1], img.pixels[index + 2]];
   if (index >= img.pixels.length) {
     throw "out o'bounds";
   }
-  //console.log(rval)
   return rval;
 }

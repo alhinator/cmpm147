@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<!-- This title is used for tabs and bookmarks -->
+	<title>Experiment 5 - Evolutionary Impression</title>
+
+	<!-- Use UTF character set, a good idea with any webpage -->
+	<meta charset="UTF-8" />
+	<!-- Set viewport so page remains consistently scaled w narrow devices -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+	<!-- Include CSS file, including a site-wide CSS and for this particular page -->
+	<link rel="stylesheet" type="text/css" href="../css/site.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+
+	<!-- Load jQuery library -->
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<!-- Load p5.js library -->
+	<script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"></script>
+
+	<!-- Link to javascript files - DEFER waits until all elements are rendered -->
+	<script type="text/javascript" src="../js/site.js" DEFER></script>
+	<!-- Use me for a p5.js project -->
+	<script type="text/javascript" src="./js/sketch.js" DEFER></script>
+</head>
+
+<body>
+	<!-- Style this page by changing the CSS in ../css/site.css or css/experiment.css -->
+	<main id="content">
+		<section>
+
+			<h1>Experiment 5 - Evolutionary Impression</h1>
+
+			<div class="minor-section">
+				<div id="canvas-container">
+					<select id="mode"></select>
+					<select id="dropper"></select>
+					<button id="restart">
+						restart
+					</button>
+					<p>
+						Mutation rate (<span id="rate"></span>%):<br /><input id="slider" type="range" min="1" max="100"
+							value="100" />
+					</p>
+					<p id="active"></p>
+					<p>Active score: <span id="activeScore"></span></p>
+					<p>Exploration rate: <span id="fpsCounter"></span> fps</p>
+					<p id="best"></p>
+					<p>Best score: <span id="bestScore"></span></p>
+					<p id="memory" data-max-items="16"></p>
+					<!-- canvas will be added here -->
+				</div>
+
+				<div class="minor-section">
+					<h2>Description</h2>
+					<p>This project focuses on replicating an image through single, simple shapes using randomness and
+						match checking. It draws a preset number of shapes (defined by the shape dropdown) of varying
+						sizes and positions across the canvas, filling them with color based on their position relative
+						to the original image's color at that pixel. Every frame, it "mutates" each of those shapes by
+						an amount determined by the slider and a gaussian noise function, changing their position, size,
+						and rotation (triangle only). This rapid mutation is displayed as the top image/canvas. Whenever
+						the program finds a "best fit" match, ie the pixels of the image match the pixels of the canvas,
+						it uses that series of shapes as its new base, mutating from there instead of the original
+						design. Every time a new best fit match is found, it's displayed in the middle display until a
+						newer fit is found; it's then moved to the list at the bottom.</p>
+					<p>The user may change the shape with which the replica image is being drawn, as well as enter an
+						accessible URL to replicate their own image.</p>
+				</div>
+
+				<div class="minor-section">
+					<h2>Technical</h2>
+					<p>One technical standout of this project was the ability to grab the pixel color from the original
+						image. This involved some experimenting due to the canvas being shrunk down to accomodate higher
+						rendering speeds, but the original image's pixel array still being full-sized. I had to
+						trial-and-error different ways for the program to translate between the two in order to not
+						encounter both index errors as well as visual bugs.
+					</p>
+				</div>
+
+				<div class="minor-section">
+					<h2>Reflection</h2>
+					<p>After the new instruction slides dropped, I'd already completed something similar, but not quite
+						right. However i'd implemented color in that project, so it was easy to port over into this one
+						and create the same pixel-grabbing effect. Additionally, I really enjoyed messing with my draw
+						settings to improve visual clarity, especially manipulating transparency based on shape size -
+						and shape size based on draw order, rather than randomness.</p>
+				</div>
+
+		</section>
+		<nav id="links" class="minor-section">
+			<!-- Put link back to homepage here. -->
+			<ul>
+				<li><a href="../index.html">Home</a></li>
+			</ul>
+		</nav>
+	</main>
+</body>
+
+</html>

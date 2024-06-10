@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Include CSS file, including a site-wide CSS and for this particular page -->
+    <link rel="stylesheet" type="text/css" href="../css/site.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <title>Gem-etic Dungeon Writeup</title>
+
+</head>
+<main id="content">
+
+    <body>
+        <div class="minor-section">
+            <h2>Description</h2>
+            <p>
+            <p>Gem-etic Dungeon is a procedural dungeon generator that uses 8-length genes to create interesting
+                dungeon layouts.</p>
+
+            <p>As the player collects gems in the dungeon, they will build a gene value which gets fed through a
+                machine learning pipeline to map out a genetic sequence; this sequence is then mixed with the current
+                room seed using a non-survival based genetic parenting algorithm, creating a chain of evolving dungeon
+                rooms influenced by the player's actions.</p>
+
+            <p>Gem-etic Dungeon is a procgen dungeon with 65536 possible length-8 genes consisting of Water, Earth,
+                Fire, and Air; these genes are used in combination with 65536 possible seeds (after seeding SFC-32
+                random and noisejs 32-bit perlin libraries), allowing for 4294967296 possible unique dungeons, not
+                including non-impactful decoration variants. The gene of a dungeon affects the following individual
+                aspects of a room:
+            <ul>
+                <li>
+                    Room Shape
+                </li>
+                <li>
+                    Gem Spawning Style
+                </li>
+                <li>
+                    Obstacle Type
+                </li>
+                <li>
+                    Wall Decoration
+                </li>
+                <li>
+                    Hallway Type
+                </li>
+                <li>
+                    Enemy Type (unused, was stretch goal)
+                </li>
+                <li>
+                    Floor Decoration
+                </li>
+                <li>
+                    Theme (coloration & sub-room placement algo)
+                </li>
+            </ul>
+            </p>
+
+
+            <p>The core gameplay loop of our program is as follows: First, convert an initial user-provided seed into a
+                formatted seed & initial gene. Then, generate a deterministic dungeon based on seed and gene: this is
+                then rendered into Phaser.js. The player may walk around the dungeon for as long as they want, exploring
+                and picking up gems. Once they step on a blue “exit” tile, a trained, sequential neural network predicts
+                a gene string for a given gem sequence based on the gems they’ve collected. A parental algorithm
+                (non-survival genetic algorithm) mixes the two ‘parent’ genes (current room, gem gene) and creates a
+                ‘child’ gene as the offspring. That child gene is then generated into a dungeon and rendered into
+                Phaser, and the loop continues.</p>
+
+
+            </p>
+
+        </div>
+
+        <div class="minor-section">
+            <h2>Technical</h2>
+            <p>The main project was written in TypeScript and bundled with Webpack. About a third of the project is
+                documented to JSDoc standards, and we used Git version control.</p>
+            <p>Alongside the standard Math.random provided by JS, we use instanced versions of the SFC-32 deterministic
+                randomness function to isolate per-room randomness to ensure deterministic outcomes. XXH-64 hashing is
+                used for hashing user input strings. The noisejs library is included as well, to provide simple fast 2d
+                perlin noise. Both the SFC-32 and noisejs libraries are limited to 65536 possible seeds as opposed to
+                XXH-64’s 64-bit output, so seeding is unfortunately lossy.</p>
+            <p>The game itself is based on the Phaser.js web platform, which has built in Tiled tilemap implementation;
+                we used manual 4-bit autotiling as seen in previous experiments.</p>
+            <p>Gene mapping is done with a Sequential Neural Network written in Python with the Keras library; this is
+                containerized with Docker and hosted on the cloud with Heroku. API calls are made to this external
+                server whenever a gem sequence needs to be mapped into a gene.</p>
+            <p>The parental algorithm utilizes a forced mutation system as well as a rock-paper-scissors style of
+                inheritance. The algorithm accepts an initial gene alongside a “new” gene; each letter of the initial
+                gene has a small chance to mutate, and is then compared against each letter of the new gene. The
+                “winner” of the rochambeau style determination is then placed into the final gene, one letter at a time,
+                and the completed new gene is returned to the rest of the program.</p>
+            <p>Generating the dungeon itself is a lengthy process, but boils down to the following set of algorithms:
+                Create the empty tilemap as an ASCII array, place the center of each subroom based on the room’s theme
+                and hallway type, connect the rooms with hallways based on the room’s hallway type, fill each subroom
+                with gems based on the room’s gem placement type, fill the room with traps based on the room’s trap
+                placement type, and finally, place the entrance and exits. The 2d ASCII array is then converted to a 1d
+                integer array (Phaser’s preferred tilemap format) and made accessible to the Phaser game loop.
+            </p>
+        </div>
+
+        <div class="minor-section">
+            <h2>Reflection</h2>
+            <p>As the lead for generating the dungeon map based on just a gene and seed, I had a lot of creative room to
+                work with, and I think I did pretty well given the time and resources I had. My work in this project
+                definitely prioritized breadth over depth, so at some points I felt like some of the variations I was
+                creating in the generator weren’t as impactful as they could have been – but seeing the final project
+                and the sheer amount of unique spaces the player sees is very awesome. I wish we’d had more time to add
+                more gameplay features like combat, player abilities, etc; but that wasn’t the focus of the project. I
+                think something I would have liked to dive deeper into given more time was cyclical level design; but
+                that concept wasn't fully introduced and I wasn’t familiar with it until the project was already in full
+                swing, so pivoting to focus on that would have severely dented overall quality. Modular generation also
+                could've been a nice addition to this project, but I started the project with non-modular genning, so it
+                would’ve been an alternate option rather than an addition. Watching the dungeon levels progress from an
+                ASCII array in the console, to a crappy placeholder tilemap, to a fully fleshed out game system was so
+                satisfying, and this project is something I’m going to be happy to have in my portfolio.</p>
+            <p>Work-wise, I built the entirety of the Generator.ts and Start.ts files, which are responsible for
+                dungeon generation, and the homescreen/start screen of the Phaser game, respectively. Additionally, I
+                worked on Dungeon.ts, heading autotiling and tilemap decoration, and providing polish to other parts of
+                Dungeon.ts and Intermission.ts when necessary. Big shoutouts to CJ for his support with bundling
+                typescript and Jackson for his awesome art.</p>
+
+        </div>
+        <div>
+            <p></p>Play it on Itch! <p></p><iframe frameborder="0"
+                src="https://itch.io/embed/2764133?linkback=true&amp;bg_color=191323&amp;fg_color=ffffff&amp;link_color=ffffff&amp;border_color=6843a3"
+                width="552" height="167"><a href="https://alhinator.itch.io/gemetic-dungeon">Gem-etic dungeon by
+                    alhinator, CJMoshy, EltZ36, lmurray045, Expertzzzz</a></iframe>
+        </div>
+
+        </section>
+        <nav id="links" class="minor-section">
+            <!-- Put link back to homepage here. -->
+            <ul>
+                <li><a href="./index.html">Gem-etic Dungeon</a></li>
+                <li><a href="../index.html">Home</a></li>
+            </ul>
+        </nav>
+    </body>
+</main>
+
+
+</html>
